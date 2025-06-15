@@ -117,7 +117,10 @@ def test_model_access_with_adk():
             model="gemini-pro",
             name="test_agent",
             description="Test agent",
-            instruction="You are a test agent. Always respond with 'Hello, this is a test.'",
+            instruction=(
+                "You are a test agent. "
+                "Always respond with 'Hello, this is a test.'"
+            ),
             tools=[],
         )
 

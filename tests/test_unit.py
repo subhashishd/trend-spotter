@@ -2,7 +2,7 @@
 """Unit tests that don't require external services."""
 
 import os
-from unittest.mock import MagicMock, patch
+from unittest.mock import patch
 
 import pytest
 
@@ -51,7 +51,8 @@ def test_environment_variables_structure():
 @pytest.mark.unit
 def test_agent_import_structure():
     """Test that agent modules can be imported (structure test only)."""
-    # Test importing without actually creating agents (which would require credentials)
+    # Test importing without actually creating agents
+    # (which would require credentials)
     try:
         import agent
 
