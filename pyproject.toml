@@ -48,5 +48,31 @@ exclude = [
     ".git/",
     "trend_spotter.egg-info/",
 ]
+[tool.pytest.ini_options]
+# Pytest configuration
+testpaths = ["tests"]
+# Add markers for different test types
+markers = [
+    "unit: Unit tests that don't require external services",
+    "integration: Integration tests that require Google Cloud credentials",
+    "slow: Slow tests that may take a long time",
+]
+# Configure asyncio for async tests
+asyncio_mode = "auto"
+# Test configuration
+addopts = [
+    "--tb=short",
+    "--strict-markers",
+    "-v",
+]
+# Patterns to ignore during collection
+norecursedirs = [
+    "myenv",
+    "build",
+    "dist",
+    ".git",
+    "*.egg",
+]
+
 [tool.adk.agents]
 trend_spotter = "trend_spotter.agent:root_agent"
