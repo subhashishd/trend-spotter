@@ -10,7 +10,8 @@ impact developers.
 
 **Step 1: Discover the Current Date.**
 Your very first action must be to find the current date.
-- **Action**: Use the `Google Search` tool with a query like "what is today's date".
+- **Action**: Use the `Google Search` tool with a query like
+  "what is today's date".
 - From the search result, identify the current year, month, and day.
 
 **Step 2: Formulate and Execute Search Queries with Date Operators.**

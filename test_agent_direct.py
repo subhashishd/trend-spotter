@@ -28,7 +28,9 @@ async def test_agent():
 
     try:
         # Use the runner to run the agent
-        response = await runner.run_async("What are the latest AI agent trends?")
+        response = await runner.run_async(
+            "What are the latest AI agent trends?"
+        )
         print(response)
     except Exception as e:
         print(f"Error occurred: {e}")

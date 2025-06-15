@@ -6,4 +6,4 @@ __version__ = "0.1.0"
 __author__ = "Your Name"
 
 # Import and expose the root_agent for ADK discovery
-from .agent import root_agent  # noqa: F401
+from agent import root_agent  # noqa: F401

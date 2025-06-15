@@ -29,7 +29,8 @@ def test_credentials():
         print("✅ Google Search API credentials are set")
     else:
         print(
-            "⚠️  Google Search API credentials not set (google_search tool won't work)"
+            "⚠️  Google Search API credentials not set "
+            "(google_search tool won't work)"
         )
 
     # Try to import and test the client

@@ -60,4 +60,7 @@ if __name__ == "__main__":
             "You can now run your agent with Vertex AI."
         )
     else:
-        print("\n❌ Vertex AI configuration test failed. Please check your setup.")
+        print(
+            "\n❌ Vertex AI configuration test failed. "
+            "Please check your setup."
+        )
