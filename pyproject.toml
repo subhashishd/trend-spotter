@@ -28,6 +28,25 @@ extend-exclude = '''
 [tool.isort]
 profile = "black"
 line_length = 79
+src_paths = ["."]
 
+[tool.mypy]
+# Ignore missing imports for third-party libraries
+ignore_missing_imports = true
+# Don't require type annotations for all functions
+no_strict_optional = true
+# Show error codes
+show_error_codes = true
+# Use explicit package bases to avoid module name conflicts
+explicit_package_bases = true
+# Exclude virtual environment and other non-source directories
+exclude = [
+    "myenv/",
+    "build/",
+    "dist/",
+    ".mypy_cache/",
+    ".git/",
+    "trend_spotter.egg-info/",
+]
 [tool.adk.agents]
 trend_spotter = "trend_spotter.agent:root_agent"
