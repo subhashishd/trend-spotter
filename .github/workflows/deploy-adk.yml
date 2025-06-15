@@ -1,0 +1,80 @@
+name: Deploy ADK Agent
+
+on:
+  push:
+    branches: [ main ]
+    tags: [ 'v*' ]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+        - staging
+        - production
+
+env:
+  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+  REGION: ${{ secrets.GCP_REGION || 'us-central1' }}
+  PYTHON_VERSION: '3.9'
+
+jobs:
+  deploy-adk:
+    name: Deploy ADK Agent
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment || 'staging' }}
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+        
+    - name: Authenticate to Google Cloud
+      uses: google-github-actions/auth@v2
+      with:
+        credentials_json: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+        
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@v2
+      with:
+        project_id: ${{ env.PROJECT_ID }}
+        
+    - name: Install ADK and dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        
+    - name: Configure ADK
+      run: |
+        # Set up ADK configuration
+        export GOOGLE_CLOUD_PROJECT=${{ env.PROJECT_ID }}
+        export GOOGLE_CLOUD_REGION=${{ env.REGION }}
+        
+    - name: Deploy ADK Agent
+      run: |
+        # Deploy the trend spotter agent
+        echo "Deploying ADK agent to Google Cloud..."
+        # Uncomment and modify based on your ADK deployment commands
+        # adk deploy --project=${{ env.PROJECT_ID }} --region=${{ env.REGION }}
+        
+    - name: Run post-deployment tests
+      run: |
+        echo "Running post-deployment verification..."
+        # Add commands to test the deployed agent
+        # python test_deployed_agent.py
+        
+    - name: Notify deployment status
+      if: always()
+      run: |
+        if [ ${{ job.status }} == 'success' ]; then
+          echo "✅ ADK Agent deployed successfully to ${{ github.event.inputs.environment || 'staging' }}"
+        else
+          echo "❌ ADK Agent deployment failed"
+        fi
+
