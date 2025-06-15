@@ -1,7 +1,52 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "trend-spotter"
 version = "0.1.0"
+description = "AI-powered trend analysis tool using Google ADK"
+readme = "README.md"
+requires-python = ">=3.9"
+license = "MIT"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+dependencies = [
+    "google-ai-generativelanguage",
+    "google-generativeai", 
+    "google-cloud-aiplatform",
+    "google-adk",
+    "python-dotenv",
+    "streamlit",
+    "pandas",
+    "plotly",
+    "requests",
+    "beautifulsoup4",
+    "lxml",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-asyncio",
+    "black",
+    "isort",
+    "flake8",
+    "mypy",
+    "bandit",
+    "safety",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/subhashishd/trend-spotter"
+"Bug Reports" = "https://github.com/subhashishd/trend-spotter/issues"
+"Source" = "https://github.com/subhashishd/trend-spotter"
 
 [tool.black]
 line-length = 79
