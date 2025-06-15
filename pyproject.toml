@@ -2,5 +2,32 @@
 [project]
 name = "trend-spotter"
 version = "0.1.0"
+
+[tool.black]
+line-length = 79
+target-version = ['py39']
+include = '\.pyi?$'
+extend-exclude = '''
+(
+  /(
+      \.eggs
+    | \.git
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+  )/
+  | foo.py
+)
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 79
+
 [tool.adk.agents]
 trend_spotter = "trend_spotter.agent:root_agent"
