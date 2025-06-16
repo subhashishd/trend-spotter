@@ -39,6 +39,30 @@ cat github-actions-key.json
 **Value:** `trend-spotter-app`  
 **Description:** The name of the ADK app (defaults to trend-spotter-app)
 
+### 6. REDDIT_CLIENT_ID (Required for Reddit Agent)
+**Description:** Reddit API client ID for accessing Reddit data  
+**How to get it:**
+1. Go to https://www.reddit.com/prefs/apps
+2. Click "Create App" or "Create Another App"
+3. Choose "script" as the app type
+4. Fill in the form:
+   - **Name:** `trend-spotter`
+   - **App type:** `script`
+   - **Description:** `AI agent for trend spotting`
+   - **About URL:** (leave blank)
+   - **Redirect URI:** `http://localhost:8080` (required for script apps)
+5. Click "Create app"
+6. Copy the client ID (shown under the app name)
+
+### 7. REDDIT_CLIENT_SECRET (Required for Reddit Agent)
+**Description:** Reddit API client secret for accessing Reddit data  
+**How to get it:** Same process as REDDIT_CLIENT_ID above - copy the "secret" value
+
+### 8. REDDIT_USER_AGENT (Required for Reddit Agent)
+**Value:** `trend-spotter:v1.0 (by /u/yourusername)`  
+**Description:** User agent string for Reddit API requests
+**Note:** Replace `yourusername` with your actual Reddit username
+
 ## How to Add Secrets to GitHub
 
 1. Go to your repository: https://github.com/subhashishd/trend-spotter

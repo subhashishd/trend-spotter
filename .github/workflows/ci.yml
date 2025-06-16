@@ -180,6 +180,13 @@ jobs:
         pip install -r requirements.txt
         
     - name: Deploy ADK Agent to Production
+      env:
+        GOOGLE_CLOUD_PROJECT: ${{ secrets.GOOGLE_CLOUD_PROJECT }}
+        GOOGLE_CLOUD_LOCATION: ${{ secrets.GOOGLE_CLOUD_LOCATION || 'us-central1' }}
+        GOOGLE_GENAI_USE_VERTEXAI: 'true'
+        REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
+        REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
+        REDDIT_USER_AGENT: ${{ secrets.REDDIT_USER_AGENT }}
       run: |
         echo "Deploying ADK agent to Google Cloud Run..."
         adk deploy cloud_run \
@@ -188,5 +195,11 @@ jobs:
         --service_name=${{ secrets.SERVICE_NAME || 'trend-spotter-service' }} \
         --app_name=${{ secrets.APP_NAME || 'trend-spotter-app' }} \
         --with_ui \
+        --env="GOOGLE_CLOUD_PROJECT=${{ secrets.GOOGLE_CLOUD_PROJECT }}" \
+        --env="GOOGLE_CLOUD_LOCATION=${{ secrets.GOOGLE_CLOUD_LOCATION || 'us-central1' }}" \
+        --env="GOOGLE_GENAI_USE_VERTEXAI=true" \
+        --env="REDDIT_CLIENT_ID=${{ secrets.REDDIT_CLIENT_ID }}" \
+        --env="REDDIT_CLIENT_SECRET=${{ secrets.REDDIT_CLIENT_SECRET }}" \
+        --env="REDDIT_USER_AGENT=${{ secrets.REDDIT_USER_AGENT }}" \
         ./trend_spotter
 
