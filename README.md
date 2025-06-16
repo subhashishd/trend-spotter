@@ -33,16 +33,33 @@ The agent provides comprehensive reports with evidence-backed analysis, helping 
 
 ```
 trend_spotter/
-├── README.md                 # This file
-├── pyproject.toml           # Project configuration and dependencies
-├── .env                     # Environment variables (create from template)
-├── __init__.py              # Package initialization for ADK discovery
-├── agent.py                 # Main agent definition and configuration
-├── prompt.py                # Detailed prompts and instructions for the agent
-├── requirements.txt         # Python dependencies
-├── start_web.sh            # Shell script to start the web interface
-├── myenv/                  # Virtual environment (created during setup)
-└── test_*.py               # Various test scripts for validation
+├── README.md                      # This file - project documentation
+├── pyproject.toml                 # Project configuration, dependencies, and tool settings
+├── requirements.txt               # Python dependencies
+├── .env                          # Environment variables (create from template)
+├── start_web.sh                  # Shell script to start the web interface
+├── deploy.sh                     # Deployment script for Google Cloud Run
+├── DEPLOYMENT.md                 # Comprehensive deployment guide
+├── GITHUB_SECRETS_SETUP.md       # GitHub Actions secrets setup guide
+├── VERTEX_AI_STATUS.md           # Vertex AI configuration status
+├── trend_spotter/               # Main package directory
+│   ├── __init__.py             # Package initialization for ADK discovery
+│   ├── agent.py                # Main agent definition and configuration
+│   └── prompt.py               # Detailed prompts and instructions for the agent
+├── tests/                       # Test suite directory
+│   ├── __init__.py             # Test package initialization
+│   ├── test_unit.py            # Unit tests
+│   └── test_integration.py     # Integration tests with external services
+├── .github/                     # GitHub Actions workflows and configuration
+│   ├── dependabot.yml          # Automated dependency updates
+│   └── workflows/               # CI/CD workflows
+│       ├── ci.yml              # Comprehensive CI/CD pipeline
+│       ├── code-quality.yml    # Code quality checks (linting, formatting)
+│       ├── deploy-adk.yml      # ADK deployment to Google Cloud Run
+│       └── README.md           # Workflow documentation
+├── myenv/                       # Virtual environment (created during setup)
+├── test_*.py                    # Various standalone test scripts
+└── trend_spotter.egg-info/      # Package build artifacts
 ```
 
 ## Main Files and Functionality
@@ -307,14 +324,151 @@ python -c "from trend_spotter import root_agent; print(f'Agent: {root_agent.name
 
 ### Testing
 
+The project includes a comprehensive test suite with both unit and integration tests:
+
 ```bash
-# Run test scripts
+# Run all tests with pytest
+pytest
+
+# Run only unit tests (no external dependencies)
+pytest -m unit
+
+# Run integration tests (requires Google Cloud credentials)
+pytest -m integration
+
+# Run with verbose output
+pytest -v
+
+# Run specific test files
+pytest tests/test_unit.py
+pytest tests/test_integration.py
+
+# Run standalone test scripts
 python test_agent_functionality.py
 python test_vertex_ai.py
-
-# Test specific functionality
-adk run . --input "test query"
 ```
+
+#### Test Configuration
+- **Unit Tests**: Test agent logic without external API calls
+- **Integration Tests**: Test full functionality with Google Cloud services
+- **Code Coverage**: Tracks test coverage across the codebase
+- **Test Markers**: Organized by type (unit, integration, slow)
+
+### Code Quality
+
+The project maintains high code quality with automated formatting and linting:
+
+```bash
+# Format code with Black (line length: 79)
+black .
+
+# Sort imports with isort
+isort .
+
+# Lint with flake8
+flake8 .
+
+# Type checking with mypy
+mypy trend_spotter
+
+# Security scanning with bandit
+bandit -r trend_spotter
+
+# Check dependencies for vulnerabilities
+safety check
+```
+
+#### Quality Standards
+- **Line Length**: 79 characters (PEP 8 compliant)
+- **Import Sorting**: Alphabetical with Black profile
+- **Type Hints**: Enforced where possible
+- **Security**: Regular vulnerability scanning
+- **Documentation**: Comprehensive docstrings
+
+## Deployment
+
+The project supports automated deployment to Google Cloud Run with comprehensive CI/CD pipelines.
+
+### Local Deployment
+
+```bash
+# Quick deployment using the deployment script
+./deploy.sh
+
+# Or manual deployment
+export GOOGLE_CLOUD_PROJECT="your-project-id"
+export GOOGLE_CLOUD_LOCATION="us-central1"
+source myenv/bin/activate
+adk deploy cloud_run \
+  --project=$GOOGLE_CLOUD_PROJECT \
+  --region=$GOOGLE_CLOUD_LOCATION \
+  --service_name=trend-spotter-service \
+  --app_name=trend-spotter-app \
+  --with_ui \
+  ./trend_spotter
+```
+
+### GitHub Actions Deployment
+
+Automated deployment is configured with GitHub Actions workflows:
+
+1. **CI/CD Pipeline** (`ci.yml`): Comprehensive testing, building, and deployment
+2. **ADK Deployment** (`deploy-adk.yml`): Dedicated ADK agent deployment to Cloud Run
+3. **Code Quality** (`code-quality.yml`): Automated code quality checks on PRs
+
+#### Required Secrets
+
+Set up these GitHub repository secrets for automated deployment:
+
+- `GCP_SERVICE_ACCOUNT_KEY`: JSON key for Google Cloud service account
+- `GOOGLE_CLOUD_PROJECT`: Your GCP project ID
+- `GOOGLE_CLOUD_LOCATION`: Deployment region (optional, defaults to us-central1)
+- `SERVICE_NAME`: Cloud Run service name (optional)
+- `APP_NAME`: ADK app name (optional)
+
+See [GITHUB_SECRETS_SETUP.md](GITHUB_SECRETS_SETUP.md) for detailed setup instructions.
+
+#### Deployment Features
+
+- **Automatic Triggers**: Deploy on push to main branch or manual trigger
+- **Environment Management**: Support for multiple deployment environments
+- **Security**: Uses service accounts with least privilege
+- **Monitoring**: Includes health checks and deployment verification
+- **UI Access**: Deploys with ADK Development UI enabled
+
+### Deployment Documentation
+
+- **[DEPLOYMENT.md](DEPLOYMENT.md)**: Comprehensive deployment guide
+- **[GITHUB_SECRETS_SETUP.md](GITHUB_SECRETS_SETUP.md)**: GitHub Actions setup
+- **[.github/workflows/README.md](.github/workflows/README.md)**: Workflow documentation
+
+## CI/CD Pipeline
+
+The project includes a robust CI/CD pipeline with multiple workflow configurations:
+
+### Continuous Integration Features
+
+- **Multi-Python Version Testing**: Tests against Python 3.9, 3.10, 3.11
+- **Code Quality Checks**: Black formatting, isort import sorting, flake8 linting
+- **Type Checking**: mypy static analysis
+- **Security Scanning**: bandit security linting, safety dependency checks
+- **Test Coverage**: pytest with coverage reporting
+- **Build Verification**: Package building and installation testing
+- **Integration Testing**: Full ADK agent functionality tests
+
+### Automated Workflows
+
+1. **Pull Request Checks**: Run on all PRs to ensure code quality
+2. **Main Branch CI**: Full test suite and deployment on main branch updates
+3. **Dependency Updates**: Automated Dependabot configuration for security updates
+4. **Manual Deployment**: On-demand deployment with environment selection
+
+### Workflow Triggers
+
+- **Push to main**: Full CI/CD pipeline with deployment
+- **Pull requests**: Code quality and testing workflows
+- **Manual dispatch**: Deploy to specific environments
+- **Schedule**: Regular dependency and security scans
 
 ## Contributing
 
