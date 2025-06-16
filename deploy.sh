@@ -5,6 +5,11 @@
 
 set -e
 
+# Add gcloud to PATH if it exists in common locations
+if [ -f "$HOME/google-cloud-sdk/bin/gcloud" ]; then
+    export PATH="$PATH:$HOME/google-cloud-sdk/bin"
+fi
+
 # Default values
 GOOGLE_CLOUD_PROJECT=${GOOGLE_CLOUD_PROJECT:-"test-trendspotter-adk"}
 GOOGLE_CLOUD_LOCATION=${GOOGLE_CLOUD_LOCATION:-"us-central1"}

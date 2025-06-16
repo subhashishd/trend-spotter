@@ -1,25 +1,23 @@
 # trend_spotter/agent.py
-from google.adk.agents import Agent
-from google.adk.tools import google_search
 
+from google.adk.agents import LlmAgent
+from google.adk.tools.agent_tool import AgentTool
+
+# Import the sub-agent INSTANCES
+from .sub_agents.google_search_agent import google_search_agent
+from .sub_agents.reddit_agent import reddit_agent
 from . import prompt
 
-# Use Vertex AI with Gemini model
-# The model will be automatically configured to use Vertex AI
-# based on environment variables
-# Use gemini-1.5-pro model that is available in Vertex AI
-MODEL = "gemini-2.5-flash-preview-05-20"
-
-# This single agent will perform all the work.
-trend_spotter_agent = Agent(
+MODEL = "gemini-2.5-pro-preview-05–06"
+# This is our main "manager" agent, now an LlmAgent
+root_agent = LlmAgent(
     model=MODEL,
-    name="trend_spotter_agent",
-    description="An agent that finds and reports on AI agent trends.",
-    # The agent's entire logic comes from our detailed prompt.
-    instruction=prompt.TREND_SPOTTER_PROMPT,
-    # We give the agent a single tool: the ability to search Google.
-    tools=[google_search],
+    name="TrendSpotterOrchestrator",
+    description="The manager of a team of specialist AI agents.",
+    instruction=prompt.ORCHESTRATOR_PROMPT,
+    # The Orchestrator's "tools" are its sub-agents, wrapped in AgentTool
+    tools=[
+        AgentTool(agent=google_search_agent),
+        AgentTool(agent=reddit_agent),
+    ],
 )
-
-# We assign it to `root_agent` by convention for ADK to discover.
-root_agent = trend_spotter_agent

@@ -1,6 +1,8 @@
-# Trend Spotter Agent
+# TrendSpotter Multi-Agent System
 
-An intelligent AI agent built with Google's Agent Development Kit (ADK) that automatically discovers, analyzes, and reports on the latest AI agent trends and developments.
+An intelligent **multi-agent AI system** built with Google's Agent Development Kit (ADK) that automatically discovers, analyzes, and reports on the latest AI agent trends and developments.
+
+> 🎆 **New**: TrendSpotter has evolved from a single agent to a sophisticated multi-agent system! See [MULTI_AGENT_SYSTEM.md](./MULTI_AGENT_SYSTEM.md) for detailed architecture documentation.
 
 ## Summary
 
