@@ -159,18 +159,34 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       
-    - name: Download build artifacts
-      uses: actions/download-artifact@v4
+    - name: Set up Python
+      uses: actions/setup-python@v4
       with:
-        name: dist-files
-        path: dist/
+        python-version: ${{ env.PYTHON_VERSION }}
         
-    - name: Deploy to production
+    - name: Authenticate to Google Cloud
+      uses: google-github-actions/auth@v2
+      with:
+        credentials_json: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+        
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@v2
+      with:
+        project_id: ${{ secrets.GOOGLE_CLOUD_PROJECT }}
+        
+    - name: Install dependencies
       run: |
-        echo "Deployment steps would go here"
-        # This could include:
-        # - Deploying to Google Cloud Run
-        # - Updating a containerized service
-        # - Publishing to PyPI
-        # - Deploying ADK agents to Google Cloud
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        
+    - name: Deploy ADK Agent to Production
+      run: |
+        echo "Deploying ADK agent to Google Cloud Run..."
+        adk deploy cloud_run \
+        --project=${{ secrets.GOOGLE_CLOUD_PROJECT }} \
+        --region=${{ secrets.GOOGLE_CLOUD_LOCATION || 'us-central1' }} \
+        --service_name=${{ secrets.SERVICE_NAME || 'trend-spotter-service' }} \
+        --app_name=${{ secrets.APP_NAME || 'trend-spotter-app' }} \
+        --with_ui \
+        ./trend_spotter
 

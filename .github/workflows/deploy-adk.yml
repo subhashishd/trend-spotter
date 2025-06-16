@@ -16,8 +16,11 @@ on:
         - production
 
 env:
-  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-  REGION: ${{ secrets.GCP_REGION || 'us-central1' }}
+  GOOGLE_CLOUD_PROJECT: ${{ secrets.GOOGLE_CLOUD_PROJECT }}
+  GOOGLE_CLOUD_LOCATION: ${{ secrets.GOOGLE_CLOUD_LOCATION || 'us-central1' }}
+  SERVICE_NAME: ${{ secrets.SERVICE_NAME || 'trend-spotter-service' }}
+  APP_NAME: ${{ secrets.APP_NAME || 'trend-spotter-app' }}
+  AGENT_PATH: './trend_spotter'
   PYTHON_VERSION: '3.9'
 
 jobs:
@@ -26,8 +29,6 @@ jobs:
     runs-on: ubuntu-latest
     environment: ${{ github.event.inputs.environment || 'staging' }}
     # Temporarily disabled until GCP secrets are configured
-    if: false
-    
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -45,7 +46,7 @@ jobs:
     - name: Set up Cloud SDK
       uses: google-github-actions/setup-gcloud@v2
       with:
-        project_id: ${{ env.PROJECT_ID }}
+        project_id: ${{ env.GOOGLE_CLOUD_PROJECT }}
         
     - name: Install ADK and dependencies
       run: |
@@ -55,15 +56,22 @@ jobs:
     - name: Configure ADK
       run: |
         # Set up ADK configuration
-        export GOOGLE_CLOUD_PROJECT=${{ env.PROJECT_ID }}
-        export GOOGLE_CLOUD_REGION=${{ env.REGION }}
+        export GOOGLE_CLOUD_PROJECT=${{ env.GOOGLE_CLOUD_PROJECT }}
+        export GOOGLE_CLOUD_LOCATION=${{ env.GOOGLE_CLOUD_LOCATION }}
+        export SERVICE_NAME=${{ env.SERVICE_NAME }}
+        export APP_NAME=${{ env.APP_NAME }}
+        export AGENT_PATH=${{ env.AGENT_PATH }}
         
     - name: Deploy ADK Agent
       run: |
-        # Deploy the trend spotter agent
         echo "Deploying ADK agent to Google Cloud..."
-        # Uncomment and modify based on your ADK deployment commands
-        # adk deploy --project=${{ env.PROJECT_ID }} --region=${{ env.REGION }}
+        adk deploy cloud_run \
+        --project=$GOOGLE_CLOUD_PROJECT \
+        --region=$GOOGLE_CLOUD_LOCATION \
+        --service_name=$SERVICE_NAME \
+        --app_name=$APP_NAME \
+        --with_ui \
+        $AGENT_PATH 
         
     - name: Run post-deployment tests
       run: |
