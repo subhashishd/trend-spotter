@@ -75,7 +75,8 @@ def test_sub_agent_structure():
 
 @pytest.mark.unit
 def test_orchestrator_prompt_content():
-    """Test that the orchestrator prompt contains expected multi-agent content."""
+    """Test orchestrator prompt contains expected multi-agent content."""
+
     from trend_spotter.prompt import ORCHESTRATOR_PROMPT
 
     # Check for multi-agent specific concepts
@@ -136,8 +137,9 @@ def test_simple_test_agent_structure():
 @pytest.mark.unit
 def test_tools_function_signature():
     """Test that tools have correct function signatures for multi-agent use."""
-    from trend_spotter.tools import search_hot_reddit_posts
     import inspect
+
+    from trend_spotter.tools import search_hot_reddit_posts
 
     # Test that search_hot_reddit_posts accepts list of subreddits
     sig = inspect.signature(search_hot_reddit_posts)
