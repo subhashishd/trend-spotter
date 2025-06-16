@@ -11,7 +11,7 @@ import pytest
 def test_imports():
     """Test that basic imports work without requiring credentials."""
     # Test that we can import the main modules
-    import prompt
+    from trend_spotter import prompt
 
     assert hasattr(prompt, "TREND_SPOTTER_PROMPT")
 
@@ -23,7 +23,7 @@ def test_imports():
 @pytest.mark.unit
 def test_prompt_content():
     """Test that the prompt contains expected content."""
-    from prompt import TREND_SPOTTER_PROMPT
+    from trend_spotter.prompt import TREND_SPOTTER_PROMPT
 
     # Check for key concepts in the prompt
     expected_keywords = ["agent", "factory", "analyst", "report", "developer"]
@@ -54,7 +54,7 @@ def test_agent_import_structure():
     # Test importing without actually creating agents
     # (which would require credentials)
     try:
-        import agent
+        from trend_spotter import agent
 
         assert hasattr(agent, "__file__")
     except ImportError as e:
@@ -77,11 +77,11 @@ def test_file_structure():
     """Test that required files exist."""
     import os
 
-    # Check that main files exist
-    assert os.path.exists("agent.py")
-    assert os.path.exists("prompt.py")
+    # Check that package files exist in trend_spotter directory
+    assert os.path.exists("trend_spotter/agent.py")
+    assert os.path.exists("trend_spotter/prompt.py")
+    assert os.path.exists("trend_spotter/__init__.py")
+
+    # Check that project configuration files exist
     assert os.path.exists("pyproject.toml")
     assert os.path.exists("requirements.txt")
-
-    # Check that __init__.py exists (for package structure)
-    assert os.path.exists("__init__.py")

@@ -119,5 +119,10 @@ norecursedirs = [
     "*.egg",
 ]
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["trend_spotter*"]
+exclude = ["myenv*", "tests*", "*.egg-info*", "build*", "dist*"]
+
 [tool.adk.agents]
 trend_spotter = "trend_spotter.agent:root_agent"

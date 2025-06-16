@@ -2,7 +2,7 @@
 from google.adk.agents import Agent
 from google.adk.tools import google_search
 
-import prompt
+from . import prompt
 
 # Use Vertex AI with Gemini model
 # The model will be automatically configured to use Vertex AI
