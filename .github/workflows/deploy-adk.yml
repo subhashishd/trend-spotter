@@ -28,7 +28,7 @@ jobs:
     name: Deploy ADK Agent
     runs-on: ubuntu-latest
     environment: ${{ github.event.inputs.environment || 'staging' }}
-    # Temporarily disabled until GCP secrets are configured
+    
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
