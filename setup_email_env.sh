@@ -79,6 +79,6 @@ echo "   - SENDER_EMAIL"
 echo "   - SENDER_APP_PASSWORD"
 echo "   - EMAIL_RECIPIENTS"
 echo
-echo "📚 For detailed setup instructions, see: email_config.md"
-echo "🔐 For GitHub secrets setup, see: GITHUB_SECRETS_SETUP.md"
+echo "📚 For detailed setup instructions, see: documentation/email_config.md"
+echo "🔐 For GitHub secrets setup, see: documentation/GITHUB_SECRETS_SETUP.md"
 

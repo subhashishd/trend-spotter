@@ -4,7 +4,7 @@ An intelligent **multi-agent AI system** built with Google's Agent Development K
 
 > 🎆 **New in v0.1.2**: Added Email Agent with MCP-compatible email delivery! Reports are now automatically formatted and sent via email.
 > 
-> 🎆 **Multi-Agent System**: TrendSpotter has evolved from a single agent to a sophisticated multi-agent system! See [MULTI_AGENT_SYSTEM.md](./MULTI_AGENT_SYSTEM.md) for detailed architecture documentation.
+> 🎆 **Multi-Agent System**: TrendSpotter has evolved from a single agent to a sophisticated multi-agent system! See [multi_agent_system.md](./documentation/multi_agent_system.md) for detailed architecture documentation.
 
 ## Summary
 
@@ -44,9 +44,13 @@ trend_spotter/
 ├── .env                          # Environment variables (create from template)
 ├── start_web.sh                  # Shell script to start the web interface
 ├── deploy.sh                     # Deployment script for Google Cloud Run
-├── DEPLOYMENT.md                 # Comprehensive deployment guide
-├── GITHUB_SECRETS_SETUP.md       # GitHub Actions secrets setup guide
-├── VERTEX_AI_STATUS.md           # Vertex AI configuration status
+├── documentation/                # Complete documentation directory
+│   ├── README.md                 # Documentation index
+│   ├── multi_agent_system.md     # Multi-agent architecture guide
+│   ├── DEPLOYMENT.md             # Comprehensive deployment guide
+│   ├── GITHUB_SECRETS_SETUP.md   # GitHub Actions secrets setup guide
+│   ├── email_config.md           # Email configuration guide
+│   └── ... (see documentation/README.md for complete index)
 ├── trend_spotter/               # Main package directory
 │   ├── __init__.py             # Package initialization for ADK discovery
 │   ├── agent.py                # Main agent definition and configuration
@@ -60,8 +64,7 @@ trend_spotter/
 │   └── workflows/               # CI/CD workflows
 │       ├── ci.yml              # Comprehensive CI/CD pipeline
 │       ├── code-quality.yml    # Code quality checks (linting, formatting)
-│       ├── deploy-adk.yml      # ADK deployment to Google Cloud Run
-│       └── README.md           # Workflow documentation
+│       └── deploy-adk.yml      # ADK deployment to Google Cloud Run
 ├── myenv/                       # Virtual environment (created during setup)
 ├── test_*.py                    # Various standalone test scripts
 └── trend_spotter.egg-info/      # Package build artifacts
@@ -258,7 +261,7 @@ export SMTP_PORT="587"
 
 ### Email Setup Guide
 
-1. **Gmail Setup**: See [email_config.md](email_config.md) for detailed Gmail configuration instructions
+1. **Gmail Setup**: See [email_config.md](documentation/email_config.md) for detailed Gmail configuration instructions
 2. **Test Email**: Run `python test_email_agent.py` to verify email functionality
 3. **Default Recipient**: Reports are sent to recipients configured via GitHub secrets
 
@@ -463,7 +466,7 @@ Set up these GitHub repository secrets for automated deployment:
 - `SERVICE_NAME`: Cloud Run service name (optional)
 - `APP_NAME`: ADK app name (optional)
 
-See [GITHUB_SECRETS_SETUP.md](GITHUB_SECRETS_SETUP.md) for detailed setup instructions.
+See [GITHUB_SECRETS_SETUP.md](documentation/GITHUB_SECRETS_SETUP.md) for detailed setup instructions.
 
 #### Deployment Features
 
@@ -475,9 +478,9 @@ See [GITHUB_SECRETS_SETUP.md](GITHUB_SECRETS_SETUP.md) for detailed setup instru
 
 ### Deployment Documentation
 
-- **[DEPLOYMENT.md](DEPLOYMENT.md)**: Comprehensive deployment guide
-- **[GITHUB_SECRETS_SETUP.md](GITHUB_SECRETS_SETUP.md)**: GitHub Actions setup
-- **[.github/workflows/README.md](.github/workflows/README.md)**: Workflow documentation
+- **[DEPLOYMENT.md](documentation/DEPLOYMENT.md)**: Comprehensive deployment guide
+- **[GITHUB_SECRETS_SETUP.md](documentation/GITHUB_SECRETS_SETUP.md)**: GitHub Actions setup
+- **[WORKFLOWS_README.md](documentation/WORKFLOWS_README.md)**: Workflow documentation
 
 ## CI/CD Pipeline
 

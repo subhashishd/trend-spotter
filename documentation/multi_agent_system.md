@@ -25,8 +25,10 @@ TrendSpotterOrchestrator (LlmAgent)
 ├── Tools: Sub-agents wrapped in AgentTool
 │   ├── Google Search Agent (Agent)
 │   │   └── Tool: google_search
-│   └── Reddit Agent (Agent)
-│       └── Tool: search_hot_reddit_posts
+│   ├── Reddit Agent (Agent)
+│   │   └── Tool: search_hot_reddit_posts
+│   └── Email Agent (Agent)
+│       └── Tool: send_email_report
 ```
 
 ## Agent Details
@@ -47,6 +49,7 @@ TrendSpotterOrchestrator (LlmAgent)
 **Tools**: Sub-agents (via `AgentTool` wrapper)
 - `google_search_agent`
 - `reddit_agent`
+- `email_agent`
 
 ### 🔍 Google Search Agent
 
@@ -95,6 +98,37 @@ Snippet: [Description text]
 - LLMDevs
 - singularity
 
+### 📧 Email Agent
+
+**Type**: `Agent` (Standard Agent)
+**Role**: Report delivery specialist
+**Model**: `gemini-2.5-flash-preview-05-20`
+
+**Responsibilities**:
+- Send formatted trend reports via email
+- Handle HTML email formatting with professional styling
+- Support multiple recipients configuration
+- Provide delivery status and error handling
+- Extract date ranges from reports for subject lines
+
+**Tools**:
+- `send_email_report` (Custom MCP-style tool)
+
+**Features**:
+- Professional HTML email templates with CSS styling
+- Support for Gmail SMTP and other providers
+- Environment variable configuration for credentials
+- Multiple recipient support via comma-separated list
+- Automatic markdown-to-HTML conversion
+- Delivery status tracking and error reporting
+
+**Email Configuration**:
+- `SENDER_EMAIL`: Sender's email address
+- `SENDER_APP_PASSWORD`: App-specific password (for Gmail)
+- `EMAIL_RECIPIENTS`: Comma-separated list of recipient emails
+- `SMTP_SERVER`: SMTP server (default: smtp.gmail.com)
+- `SMTP_PORT`: SMTP port (default: 587)
+
 ## Multi-Agent Workflow
 
 ### 1. Initialization Phase
@@ -135,6 +169,16 @@ Structured output with three sections:
 - 🚀 **Top 5 Releases** for Agent Developers  
 - 🤔 **Top 5 Questions** from Agent Developers
 
+### 6. Email Delivery (Optional)
+```
+Orchestrator → Email Agent: "Send this report via email"
+Email Agent processes:
+├── Extracts date range from report
+├── Creates professional HTML email formatting
+├── Sends to configured recipients
+└── Returns delivery confirmation
+```
+
 ## Technical Implementation
 
 ### File Structure
@@ -146,7 +190,8 @@ trend_spotter/
 └── sub_agents/
     ├── __init__.py
     ├── google_search_agent.py   # Google Search specialist
-    └── reddit_agent.py          # Reddit specialist
+    ├── reddit_agent.py          # Reddit specialist
+    └── email_agent.py           # Email delivery specialist
 ```
 
 ### Key Code Changes
@@ -157,14 +202,16 @@ from google.adk.agents import LlmAgent
 from google.adk.tools.agent_tool import AgentTool
 from .sub_agents.google_search_agent import google_search_agent
 from .sub_agents.reddit_agent import reddit_agent
+from .sub_agents.email_agent import email_agent
 
 root_agent = LlmAgent(
-    model="gemini-2.5-pro-preview-05-06",
+    model="gemini-2.5-flash-preview-05-20",
     name="TrendSpotterOrchestrator",
     instruction=prompt.ORCHESTRATOR_PROMPT,
     tools=[
         AgentTool(agent=google_search_agent),
         AgentTool(agent=reddit_agent),
+        AgentTool(agent=email_agent),
     ],
 )
 ```
@@ -242,6 +289,8 @@ adk web
 - **Twitter Agent**: Track social media discussions
 - **Academic Agent**: Search arXiv and research papers
 - **Hacker News Agent**: Track tech community discussions
+- **Calendar Agent**: Schedule and manage report delivery
+- **Slack/Teams Agent**: Send reports to team channels
 
 ### Advanced Features
 - **Memory System**: Persist insights across sessions
@@ -254,10 +303,12 @@ adk web
 For users upgrading from the single-agent version:
 
 1. **Environment Variables**: Same requirements (Google Cloud, Reddit API)
-2. **Dependencies**: Same `requirements.txt` 
+   - **New**: Email configuration variables for email delivery feature
+2. **Dependencies**: Same `requirements.txt` with added email support
 3. **Configuration**: Same `pyproject.toml` agent discovery
 4. **Interface**: Same web interface at `http://localhost:8080`
 5. **Output Format**: Enhanced but compatible report structure
+6. **New Feature**: Optional email delivery of reports
 
 The multi-agent system is designed to be a drop-in replacement with enhanced capabilities.
 
