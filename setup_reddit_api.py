@@ -29,8 +29,7 @@ def setup_reddit_credentials():
     print("   - Name: trend-spotter")
     print("   - App type: script")
     print(
-        "   - Description: AI agent for trend spotting on "
-        "The Agent Factory podcast"
+        "   - Description: AI agent for trend spotting on " "The Agent Factory podcast"
     )
     print("   - About URL: (leave blank)")
     print("   - Redirect URI: http://localhost:8080")
@@ -46,9 +45,7 @@ def setup_reddit_credentials():
         "\nEnter your Reddit Client ID (shown under the app name): "
     ).strip()
     client_secret = input("Enter your Reddit Client Secret: ").strip()
-    reddit_username = input(
-        "Enter your Reddit username (for user agent): "
-    ).strip()
+    reddit_username = input("Enter your Reddit username (for user agent): ").strip()
 
     if not client_id or not client_secret or not reddit_username:
         print("❌ Error: All fields are required!")
@@ -74,10 +71,8 @@ def setup_reddit_credentials():
                 reddit_section_found = True
                 new_lines.extend(
                     [
-                        "# Reddit API Configuration "
-                        "(Required for Reddit Agent)",
-                        "# Get these from "
-                        "https://www.reddit.com/prefs/apps",
+                        "# Reddit API Configuration " "(Required for Reddit Agent)",
+                        "# Get these from " "https://www.reddit.com/prefs/apps",
                         f"REDDIT_CLIENT_ID={client_id}",
                         f"REDDIT_CLIENT_SECRET={client_secret}",
                         f"REDDIT_USER_AGENT={user_agent}",
@@ -150,8 +145,7 @@ REDDIT_USER_AGENT={user_agent}
 
     print("\n📝 Step 5: GitHub Secrets (For Production)")
     print(
-        "For production deployment, you'll also need to add these to "
-        "GitHub secrets:"
+        "For production deployment, you'll also need to add these to " "GitHub secrets:"
     )
     print("")
     print(

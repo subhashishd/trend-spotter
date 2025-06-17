@@ -25,9 +25,7 @@ class ProductionVerifier:
         required_vars = {
             "GOOGLE_CLOUD_PROJECT": "Google Cloud project ID",
             "GOOGLE_CLOUD_LOCATION": "Google Cloud region",
-            "GOOGLE_GENAI_USE_VERTEXAI": (
-                "Use Vertex AI instead of direct Gemini API"
-            ),
+            "GOOGLE_GENAI_USE_VERTEXAI": ("Use Vertex AI instead of direct Gemini API"),
         }
 
         optional_reddit_vars = {
@@ -56,8 +54,7 @@ class ProductionVerifier:
 
         if reddit_vars_present == 0:
             self.errors.append(
-                "   ❌ No Reddit API credentials found - "
-                "Reddit agent will not work"
+                "   ❌ No Reddit API credentials found - " "Reddit agent will not work"
             )
         elif reddit_vars_present < 3:
             self.warnings.append(
@@ -121,13 +118,9 @@ class ProductionVerifier:
                     text=True,
                     check=True,
                 )
-                self.success_messages.append(
-                    f"   ✅ Can access project: {project_id}"
-                )
+                self.success_messages.append(f"   ✅ Can access project: {project_id}")
             except subprocess.CalledProcessError:
-                self.errors.append(
-                    f"   ❌ Cannot access project: {project_id}"
-                )
+                self.errors.append(f"   ❌ Cannot access project: {project_id}")
                 return False
 
         return True
@@ -143,9 +136,7 @@ class ProductionVerifier:
             )
             return True
         else:
-            self.warnings.append(
-                "   ⚠️  GitHub secrets setup documentation missing"
-            )
+            self.warnings.append("   ⚠️  GitHub secrets setup documentation missing")
             return False
 
     def verify_deployment_pipelines(self) -> bool:
@@ -161,9 +152,7 @@ class ProductionVerifier:
         all_exist = True
         for file_path, description in pipeline_files.items():
             if Path(file_path).exists():
-                self.success_messages.append(
-                    f"   ✅ {description}: {file_path}"
-                )
+                self.success_messages.append(f"   ✅ {description}: {file_path}")
             else:
                 self.errors.append(f"   ❌ Missing {description}: {file_path}")
                 all_exist = False
@@ -192,9 +181,7 @@ class ProductionVerifier:
         try:
             from trend_spotter.agent import root_agent
 
-            self.success_messages.append(
-                f"   ✅ Agent discoverable: {root_agent.name}"
-            )
+            self.success_messages.append(f"   ✅ Agent discoverable: {root_agent.name}")
         except ImportError as e:
             self.errors.append(f"   ❌ Cannot import agent: {e}")
             return False
@@ -266,8 +253,7 @@ class ProductionVerifier:
                     "# 4. Add to GitHub secrets:",
                     "#    REDDIT_CLIENT_ID=<your_client_id>",
                     "#    REDDIT_CLIENT_SECRET=<your_client_secret>",
-                    "#    REDDIT_USER_AGENT=trend-spotter:v1.2 "
-                    "(by /u/yourusername)",
+                    "#    REDDIT_USER_AGENT=trend-spotter:v1.2 " "(by /u/yourusername)",
                     "",
                 ]
             )
@@ -324,18 +310,14 @@ class ProductionVerifier:
             print("\n📝 Next steps:")
             print("   1. Ensure all GitHub secrets are configured")
             print("   2. Run: git push origin main (to trigger deployment)")
-            print(
-                "   3. Or manually trigger: GitHub Actions → Deploy ADK Agent"
-            )
+            print("   3. Or manually trigger: GitHub Actions → Deploy ADK Agent")
         else:
             print("❌ VERIFICATION FAILED! Please fix the errors above.")
             print("\n📝 Required actions:")
             if self.errors:
                 print("   1. Fix all error conditions listed above")
             if self.warnings:
-                print(
-                    "   2. Address warning conditions for full functionality"
-                )
+                print("   2. Address warning conditions for full functionality")
             print("   3. Re-run this verification script")
 
         print("=" * 60)

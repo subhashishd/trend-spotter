@@ -52,8 +52,7 @@ def search_hot_reddit_posts(
             )
 
         print(
-            f"✅ Reddit search complete. Found {len(all_posts)} "
-            f"qualifying posts."
+            f"✅ Reddit search complete. Found {len(all_posts)} " f"qualifying posts."
         )
         return "\n---\n".join(all_posts)
 

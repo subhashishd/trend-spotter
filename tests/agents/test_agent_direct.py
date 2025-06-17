@@ -20,7 +20,7 @@ def test_agent():
     assert root_agent is not None
     assert root_agent.name == "TrendSpotterOrchestrator"
     assert len(root_agent.tools) == 3
-    
+
     print("\n" + "=" * 60)
     print("Agent test completed successfully!")
 

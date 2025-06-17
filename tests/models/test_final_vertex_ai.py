@@ -19,9 +19,7 @@ async def test_agent_with_vertex_ai():
         # Use the async generator properly
         print("🔄 Testing agent communication with Vertex AI...")
 
-        response = await root_agent.run_async(
-            "What is 2+2? Keep your answer brief."
-        )
+        response = await root_agent.run_async("What is 2+2? Keep your answer brief.")
         print(f"✅ Vertex AI Response: {response}")
 
         return True
@@ -46,7 +44,4 @@ if __name__ == "__main__":
         print("\n🎉 SUCCESS! Your Vertex AI integration is working perfectly!")
         print("The trend_spotter application is ready to use.")
     else:
-        print(
-            "\n❌ FAILED! There are still issues with the Vertex AI "
-            "integration."
-        )
+        print("\n❌ FAILED! There are still issues with the Vertex AI " "integration.")

@@ -27,9 +27,7 @@ def test_google_api_key_valid():
     """Test that Google API key is valid and can create a client."""
     api_key = os.getenv("GOOGLE_API_KEY")
     assert api_key is not None, "GOOGLE_API_KEY environment variable not set"
-    assert (
-        api_key != "your_api_key_here"
-    ), "GOOGLE_API_KEY is still placeholder"
+    assert api_key != "your_api_key_here", "GOOGLE_API_KEY is still placeholder"
 
     try:
         from google.genai import Client
@@ -68,9 +66,7 @@ def test_simple_agent_response():
         from simple_test_agent import root_agent
 
         # Test a simple query
-        response = root_agent.run_live(
-            "Hello! Can you tell me what 2+2 equals?"
-        )
+        response = root_agent.run_live("Hello! Can you tell me what 2+2 equals?")
 
         # Since run_live might be async, handle both cases
         if hasattr(response, "__aiter__"):
@@ -118,8 +114,7 @@ def test_model_access_with_adk():
             name="test_agent",
             description="Test agent",
             instruction=(
-                "You are a test agent. "
-                "Always respond with 'Hello, this is a test.'"
+                "You are a test agent. " "Always respond with 'Hello, this is a test.'"
             ),
             tools=[],
         )

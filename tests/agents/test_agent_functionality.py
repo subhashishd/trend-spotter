@@ -15,9 +15,7 @@ def test_simple_agent_response():
     print("✅ Simple agent imported successfully")
 
     # Test a simple query
-    response = root_agent.run_live(
-        "Hello! Can you tell me what 2+2 equals?"
-    )
+    response = root_agent.run_live("Hello! Can you tell me what 2+2 equals?")
     print(f"✅ Agent response: {response}")
     assert response is not None
 
@@ -26,9 +24,7 @@ def test_trend_spotter_agent_import():
     """Test if the trend spotter agent can be imported."""
     from trend_spotter.agent import root_agent
 
-    print(
-        f"✅ Trend spotter agent imported successfully: {root_agent.name}"
-    )
+    print(f"✅ Trend spotter agent imported successfully: {root_agent.name}")
     print(f"✅ Model: {root_agent.model}")
     print(f"✅ Tools available: {len(root_agent.tools)} tool(s)")
     assert root_agent is not None
