@@ -90,7 +90,7 @@ def test_email_recipients():
         print(f"✅ EMAIL_RECIPIENTS configured: {', '.join(recipients)}")
     else:
         print(
-            "⚠️ EMAIL_RECIPIENTS not set, will use default: tinks70@gmail.com"
+            "⚠️ EMAIL_RECIPIENTS not set, will use default: <your email address>"
         )
     # Test always passes - configuration is optional
 
@@ -118,7 +118,7 @@ def main():
     # Test email sending
     if test_email_agent():
         print("\n✅ All email tests passed!")
-        recipients_env = os.getenv("EMAIL_RECIPIENTS", "tinks70@gmail.com")
+        recipients_env = os.getenv("EMAIL_RECIPIENTS", "<your email address>")
         recipients = [
             email.strip()
             for email in recipients_env.split(",")

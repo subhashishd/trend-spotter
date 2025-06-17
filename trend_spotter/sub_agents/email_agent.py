@@ -35,7 +35,7 @@ def send_email_report(
         if recipient_email:
             recipients = [recipient_email.strip()]
         else:
-            recipients_env = os.getenv("EMAIL_RECIPIENTS", "tinks70@gmail.com")
+            recipients_env = os.getenv("EMAIL_RECIPIENTS", "<your email address>")
             recipients = [
                 email.strip()
                 for email in recipients_env.split(",")
@@ -257,11 +257,11 @@ EMAIL_AGENT_PROMPT = """
    - subject: "AI Agent Trends Report - [Date Range]"
    - report_content: The full report content
    - report_date_range: The extracted date range
-   - recipient_email: "tinks70@gmail.com" (default)
+   - recipient_email: Uses EMAIL_RECIPIENTS environment variable (default)
 5. Confirm successful delivery with a status message.
 
 **Email Configuration:**
-- Default recipient: tinks70@gmail.com (unless otherwise specified)
+- Default recipient: Uses EMAIL_RECIPIENTS environment variable (unless otherwise specified)
 - Subject format: "AI Agent Trends Report - [Date Range]"
 - Always include the full report content in the email body.
 

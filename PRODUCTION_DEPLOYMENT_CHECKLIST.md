@@ -45,7 +45,7 @@ Go to [GitHub Repository Settings → Secrets and Variables → Actions](https:/
 2. Add to GitHub secrets:
    - **SENDER_EMAIL**: Your Gmail address (e.g., `your-email@gmail.com`)
    - **SENDER_APP_PASSWORD**: The app password generated above
-   - **EMAIL_RECIPIENTS**: Comma-separated list of recipients (optional, defaults to `tinks70@gmail.com`)
+   - **EMAIL_RECIPIENTS**: Comma-separated list of recipients (required for email functionality)
    - **SMTP_SERVER**: `smtp.gmail.com` (optional, defaults to this)
    - **SMTP_PORT**: `587` (optional, defaults to this)
 

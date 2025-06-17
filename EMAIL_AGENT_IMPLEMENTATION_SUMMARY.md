@@ -32,7 +32,7 @@ The orchestrator now follows this enhanced workflow:
 1. **Discover current date** using Google Search agent
 2. **Research trends** using both Google Search and Reddit agents
 3. **Synthesize report** combining findings from both sources
-4. **📧 NEW: Email delivery** - Automatically send formatted report to tinks70@gmail.com
+4. **📧 NEW: Email delivery** - Automatically send formatted report to configured recipients
 5. **Confirmation** - Provide delivery status to user
 
 ## 🔧 What You Need to Do Next
@@ -75,12 +75,12 @@ Expected output if successful:
 ✅ SENDER_APP_PASSWORD: **************** (hidden)
 
 📧 Testing email agent...
-📧 Preparing to send email to tinks70@gmail.com...
+📧 Preparing to send email to <your email address>...
 📤 Connecting to SMTP server smtp.gmail.com:587...
-📤 Email agent response: ✅ Email successfully sent to tinks70@gmail.com at 2024-12-17 10:30:45 UTC
+📤 Email agent response: ✅ Email successfully sent to <your email address> at 2024-12-17 10:30:45 UTC
 
 ✅ All email tests passed!
-📧 Check tinks70@gmail.com for the test email.
+📧 Check <your email address> for the test email.
 ```
 
 ### Step 3: Test Full Workflow
@@ -99,7 +99,7 @@ Then ask: "What are the latest AI agent trends?"
 The system should:
 1. Research trends from Google and Reddit
 2. Generate a comprehensive report
-3. Automatically send the report to tinks70@gmail.com
+3. Automatically send the report to configured recipients
 4. Confirm delivery
 
 ## 📧 Email Features
@@ -130,7 +130,7 @@ The system should:
 ### Customization Options
 You can customize the email agent by modifying:
 
-1. **Recipient**: Default is tinks70@gmail.com, but can be changed in prompt
+1. **Recipient**: Must be configured via EMAIL_RECIPIENTS environment variable or GitHub secrets
 2. **SMTP Settings**: Environment variables for different email providers
 3. **HTML Template**: Modify `_format_report_as_html()` function
 4. **Subject Format**: Update in `EMAIL_AGENT_PROMPT`
@@ -199,7 +199,7 @@ echo "Password set: $([ -n "$SENDER_APP_PASSWORD" ] && echo 'Yes' || echo 'No')"
 
 1. **Test the email functionality** with `test_email_agent.py`
 2. **Run a full trend analysis** to see the complete workflow
-3. **Check your email** at tinks70@gmail.com for the beautifully formatted report
+3. **Check your email** at your configured address for the beautifully formatted report
 4. **Optional**: Customize email templates or add additional recipients
 5. **Optional**: Deploy to Google Cloud Run to have automated email reports
 

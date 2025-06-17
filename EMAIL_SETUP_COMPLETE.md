@@ -9,9 +9,9 @@ The email agent has been successfully enhanced with multiple recipient support, 
 ### 1. Environment Variables Configuration
 - **Updated `.env` file** with proper email configuration:
   ```bash
-  SENDER_EMAIL=tinks70@gmail.com
-  SENDER_APP_PASSWORD="fosk ywbj uvjv mzxl"
-  EMAIL_RECIPIENTS=tinks70@gmail.com
+  SENDER_EMAIL=<your email address>
+  SENDER_APP_PASSWORD="<your gmail app password>"
+  EMAIL_RECIPIENTS=<your email address>
   SMTP_SERVER=smtp.gmail.com
   SMTP_PORT=587
   ```
@@ -20,7 +20,7 @@ The email agent has been successfully enhanced with multiple recipient support, 
 - **Multiple Recipients Support**: Can now send to comma-separated list of emails
 - **Environment Variable Driven**: Recipients configurable via `EMAIL_RECIPIENTS`
 - **Improved Error Handling**: Better handling of individual recipient failures
-- **Backward Compatibility**: Still defaults to `tinks70@gmail.com` if no env var set
+- **Environment Configuration**: Email recipients must be configured via environment variables or GitHub secrets
 
 ### 3. Organized Test Structure
 Moved all test files to appropriate subdirectories:
@@ -70,20 +70,20 @@ tests/
 🧪 Email Agent Test Suite
 ========================================
 🔍 Checking email configuration...
-✅ SENDER_EMAIL: tinks70@gmail.com
+✅ SENDER_EMAIL: <your email address>
 ✅ SENDER_APP_PASSWORD: ******************* (hidden)
 
 📋 Testing email recipients configuration...
-✅ EMAIL_RECIPIENTS configured: tinks70@gmail.com
+✅ EMAIL_RECIPIENTS configured: <your email address>
 
 📧 Testing email agent...
-📧 Preparing to send email to 1 recipient(s): tinks70@gmail.com...
+📧 Preparing to send email to 1 recipient(s): <your email address>...
 📤 Connecting to SMTP server smtp.gmail.com:587...
-✅ Email sent to tinks70@gmail.com
-✅ Email successfully sent to 1 recipient(s): tinks70@gmail.com at 2025-06-17 13:12:17 UTC
+✅ Email sent to <your email address>
+✅ Email successfully sent to 1 recipient(s): <your email address> at 2025-06-17 13:12:17 UTC
 
 ✅ All email tests passed!
-📧 Check tinks70@gmail.com for the test report
+📧 Check <your email address> for the test report
 ```
 
 ## 🚀 How to Use Multiple Recipients
@@ -91,7 +91,7 @@ tests/
 ### Local Development
 ```bash
 # Single recipient (current)
-export EMAIL_RECIPIENTS="tinks70@gmail.com"
+export EMAIL_RECIPIENTS="<your email address>"
 
 # Multiple recipients
 export EMAIL_RECIPIENTS="user1@example.com,user2@example.com,user3@example.com"
@@ -104,7 +104,7 @@ Add to repository secrets:
 ### In .env file
 ```bash
 # Multiple recipients (comma-separated, no spaces)
-EMAIL_RECIPIENTS=tinks70@gmail.com,admin@company.com,team@startup.com
+EMAIL_RECIPIENTS=<your email address>,admin@company.com,team@startup.com
 ```
 
 ## 🎯 Next Steps
@@ -119,9 +119,9 @@ cd /Users/subhashishdas/trend_spotter
 
 ### 2. GitHub Secrets Setup (for Production)
 Add these secrets to your GitHub repository:
-1. `SENDER_EMAIL`: `tinks70@gmail.com`
-2. `SENDER_APP_PASSWORD`: `fosk ywbj uvjv mzxl`
-3. `EMAIL_RECIPIENTS`: `tinks70@gmail.com` (or your preferred recipients)
+1. `SENDER_EMAIL`: `<your email address>`
+2. `SENDER_APP_PASSWORD`: `<your gmail app password>`
+3. `EMAIL_RECIPIENTS`: `<your email address>` (or your preferred recipients)
 
 ### 3. Quick Commands
 ```bash

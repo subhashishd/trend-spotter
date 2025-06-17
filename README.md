@@ -260,7 +260,7 @@ export SMTP_PORT="587"
 
 1. **Gmail Setup**: See [email_config.md](email_config.md) for detailed Gmail configuration instructions
 2. **Test Email**: Run `python test_email_agent.py` to verify email functionality
-3. **Default Recipient**: Reports are automatically sent to tinks70@gmail.com
+3. **Default Recipient**: Reports are sent to recipients configured via GitHub secrets
 
 ### Email Features
 

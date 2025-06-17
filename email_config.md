@@ -58,7 +58,7 @@ SENDER_APP_PASSWORD=abcd efgh ijkl mnop
 
 ### Single Recipient (Default)
 ```bash
-export EMAIL_RECIPIENTS="tinks70@gmail.com"
+export EMAIL_RECIPIENTS="<your email address>"
 ```
 
 ### Multiple Recipients
@@ -67,7 +67,7 @@ export EMAIL_RECIPIENTS="user1@example.com,user2@example.com,user3@example.com"
 ```
 
 ### Default Configuration
-- **Default recipient**: tinks70@gmail.com (if EMAIL_RECIPIENTS not set)
+- **Default recipient**: Must be configured via EMAIL_RECIPIENTS environment variable or GitHub secrets
 - **Email format**: HTML with professional styling
 - **Subject format**: "AI Agent Trends Report - [Date Range]"
 - **SMTP server**: Gmail (smtp.gmail.com:587)
@@ -89,7 +89,7 @@ from trend_spotter.sub_agents.email_agent import email_agent
 
 # Test with a simple message
 response = email_agent.run(
-    "Please send a test email with the subject 'Test Email' to tinks70@gmail.com with some sample content."
+    "Please send a test email with the subject 'Test Email' to <your email address> with some sample content."
 )
 
 print(response)

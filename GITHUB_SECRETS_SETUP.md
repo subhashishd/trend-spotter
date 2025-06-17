@@ -64,7 +64,7 @@ cat github-actions-key.json
 **Note:** Replace `yourusername` with your actual Reddit username
 
 ### 9. SENDER_EMAIL (Required for Email Agent)
-**Value:** `tinks70@gmail.com` (or your Gmail address)  
+**Value:** `<your email address>`  
 **Description:** Gmail address for sending trend reports
 **Note:** Must be a valid Gmail address with 2FA enabled
 
@@ -80,11 +80,10 @@ cat github-actions-key.json
 7. Copy the generated 16-character password (format: `abcd efgh ijkl mnop`)
 8. **Important:** Remove spaces when entering as secret: `abcdefghijklmnop`
 
-### 11. EMAIL_RECIPIENTS (Optional for Email Agent)
-**Value:** `tinks70@gmail.com` or `user1@example.com,user2@example.com`  
+### 11. EMAIL_RECIPIENTS (Required for Email Agent)
+**Value:** `<your email address>` or `user1@example.com,user2@example.com`  
 **Description:** Comma-separated list of email recipients for trend reports
-**Default:** `tinks70@gmail.com` (if not specified)
-**Note:** For multiple recipients, separate with commas (no spaces)
+**Note:** This is required - there is no default value. For multiple recipients, separate with commas (no spaces)
 
 ### 12. SMTP_SERVER (Optional for Email Agent)
 **Value:** `smtp.gmail.com`  
@@ -116,9 +115,9 @@ cat github-actions-key.json
 - **REDDIT_CLIENT_ID:** (from Reddit app creation)
 - **REDDIT_CLIENT_SECRET:** (from Reddit app creation)
 - **REDDIT_USER_AGENT:** `trend-spotter:v1.2 (by /u/yourusername)`
-- **SENDER_EMAIL:** `tinks70@gmail.com` (or your Gmail)
+- **SENDER_EMAIL:** `<your email address>`
 - **SENDER_APP_PASSWORD:** (from Gmail app password generation)
-- **EMAIL_RECIPIENTS:** `tinks70@gmail.com` (or comma-separated list)
+- **EMAIL_RECIPIENTS:** `<your email address>` (or comma-separated list)
 
 ## Testing the Automated Deployment
 

@@ -30,10 +30,10 @@ echo "   SENDER_EMAIL: Your Gmail address (e.g., youremail@gmail.com)"
 echo "   SENDER_APP_PASSWORD: The 16-character app password from step 1"
 echo "   EMAIL_RECIPIENTS: Comma-separated recipient list (e.g., user1@example.com,user2@example.com)"
 echo
-echo "3. Current Configuration (from your .env file):"
-echo "   SENDER_EMAIL=tinks70@gmail.com"
-echo "   SENDER_APP_PASSWORD=fosk ywbj uvjv mzxl"
-echo "   EMAIL_RECIPIENTS=tinks70@gmail.com"
+echo "3. Example Configuration (for your .env file):"
+echo "   SENDER_EMAIL=<your email address>"
+echo "   SENDER_APP_PASSWORD=<your app password>"
+echo "   EMAIL_RECIPIENTS=<recipient email addresses>"
 echo
 
 # Test current configuration
@@ -57,7 +57,7 @@ else
 fi
 
 if [ -z "$EMAIL_RECIPIENTS" ]; then
-    echo "⚠️  EMAIL_RECIPIENTS not set, will use default: tinks70@gmail.com"
+    echo "⚠️  EMAIL_RECIPIENTS not set, will use default: <your email address>"
 else
     echo "✅ EMAIL_RECIPIENTS: $EMAIL_RECIPIENTS"
 fi
