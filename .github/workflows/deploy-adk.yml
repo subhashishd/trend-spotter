@@ -70,19 +70,34 @@ jobs:
         GOOGLE_GENAI_USE_VERTEXAI: 'true'
       run: |
         echo "Deploying ADK agent to Google Cloud..."
+        echo "Environment variables available for deployment:"
+        echo "  GOOGLE_CLOUD_PROJECT=$GOOGLE_CLOUD_PROJECT"
+        echo "  GOOGLE_CLOUD_LOCATION=$GOOGLE_CLOUD_LOCATION"
+        echo "  GOOGLE_GENAI_USE_VERTEXAI=$GOOGLE_GENAI_USE_VERTEXAI"
+        echo "  REDDIT_CLIENT_ID=${REDDIT_CLIENT_ID:0:8}..."
+        echo "  REDDIT_CLIENT_SECRET=${REDDIT_CLIENT_SECRET:0:8}..."
+        echo "  REDDIT_USER_AGENT=$REDDIT_USER_AGENT"
+        echo ""
         adk deploy cloud_run \
-        --project=$GOOGLE_CLOUD_PROJECT \
-        --region=$GOOGLE_CLOUD_LOCATION \
-        --service_name=$SERVICE_NAME \
-        --app_name=$APP_NAME \
-        --with_ui \
-        --env="GOOGLE_CLOUD_PROJECT=$GOOGLE_CLOUD_PROJECT" \
-        --env="GOOGLE_CLOUD_LOCATION=$GOOGLE_CLOUD_LOCATION" \
-        --env="GOOGLE_GENAI_USE_VERTEXAI=true" \
-        --env="REDDIT_CLIENT_ID=${{ secrets.REDDIT_CLIENT_ID }}" \
-        --env="REDDIT_CLIENT_SECRET=${{ secrets.REDDIT_CLIENT_SECRET }}" \
-        --env="REDDIT_USER_AGENT=${{ secrets.REDDIT_USER_AGENT }}" \
-        $AGENT_PATH
+          --project=$GOOGLE_CLOUD_PROJECT \
+          --region=$GOOGLE_CLOUD_LOCATION \
+          --service_name=$SERVICE_NAME \
+          --app_name=$APP_NAME \
+          --with_ui \
+          $AGENT_PATH
+        
+    - name: Configure Cloud Run Environment Variables
+      env:
+        REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
+        REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
+        REDDIT_USER_AGENT: ${{ secrets.REDDIT_USER_AGENT }}
+        GOOGLE_GENAI_USE_VERTEXAI: 'true'
+      run: |
+        echo "Configuring environment variables for Cloud Run service..."
+        gcloud run services update $SERVICE_NAME \
+          --region=$GOOGLE_CLOUD_LOCATION \
+          --set-env-vars="GOOGLE_CLOUD_PROJECT=$GOOGLE_CLOUD_PROJECT,GOOGLE_CLOUD_LOCATION=$GOOGLE_CLOUD_LOCATION,GOOGLE_GENAI_USE_VERTEXAI=$GOOGLE_GENAI_USE_VERTEXAI,REDDIT_CLIENT_ID=$REDDIT_CLIENT_ID,REDDIT_CLIENT_SECRET=$REDDIT_CLIENT_SECRET,REDDIT_USER_AGENT=$REDDIT_USER_AGENT"
+        echo "Environment variables configured successfully."
         
     - name: Run post-deployment tests
       run: |
