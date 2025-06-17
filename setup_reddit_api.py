@@ -2,10 +2,10 @@
 """
 Reddit API Setup Helper
 
-This script helps you configure Reddit API credentials for the trend spotter agent.
+This script helps you configure Reddit API credentials for the
+trend spotter agent.
 """
 
-import os
 import webbrowser
 from pathlib import Path
 
@@ -29,7 +29,8 @@ def setup_reddit_credentials():
     print("   - Name: trend-spotter")
     print("   - App type: script")
     print(
-        "   - Description: AI agent for trend spotting on The Agent Factory podcast"
+        "   - Description: AI agent for trend spotting on "
+        "The Agent Factory podcast"
     )
     print("   - About URL: (leave blank)")
     print("   - Redirect URI: http://localhost:8080")
@@ -73,8 +74,10 @@ def setup_reddit_credentials():
                 reddit_section_found = True
                 new_lines.extend(
                     [
-                        "# Reddit API Configuration (Required for Reddit Agent)",
-                        "# Get these from https://www.reddit.com/prefs/apps",
+                        "# Reddit API Configuration "
+                        "(Required for Reddit Agent)",
+                        "# Get these from "
+                        "https://www.reddit.com/prefs/apps",
                         f"REDDIT_CLIENT_ID={client_id}",
                         f"REDDIT_CLIENT_SECRET={client_secret}",
                         f"REDDIT_USER_AGENT={user_agent}",
@@ -147,11 +150,13 @@ REDDIT_USER_AGENT={user_agent}
 
     print("\n📝 Step 5: GitHub Secrets (For Production)")
     print(
-        "For production deployment, you'll also need to add these to GitHub secrets:"
+        "For production deployment, you'll also need to add these to "
+        "GitHub secrets:"
     )
     print("")
     print(
-        "Go to: https://github.com/subhashishd/trend-spotter/settings/secrets/actions"
+        "Go to: https://github.com/subhashishd/trend-spotter/"
+        "settings/secrets/actions"
     )
     print("")
     print("Add these secrets:")

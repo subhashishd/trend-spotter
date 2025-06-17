@@ -7,10 +7,9 @@ set up for production deployment to Google Cloud Run.
 """
 
 import os
-import json
 import subprocess
 from pathlib import Path
-from typing import Dict, List, Tuple, Optional
+from typing import List
 
 
 class ProductionVerifier:
@@ -26,7 +25,9 @@ class ProductionVerifier:
         required_vars = {
             "GOOGLE_CLOUD_PROJECT": "Google Cloud project ID",
             "GOOGLE_CLOUD_LOCATION": "Google Cloud region",
-            "GOOGLE_GENAI_USE_VERTEXAI": "Use Vertex AI instead of direct Gemini API",
+            "GOOGLE_GENAI_USE_VERTEXAI": (
+                "Use Vertex AI instead of direct Gemini API"
+            ),
         }
 
         optional_reddit_vars = {
@@ -55,11 +56,13 @@ class ProductionVerifier:
 
         if reddit_vars_present == 0:
             self.errors.append(
-                "   ❌ No Reddit API credentials found - Reddit agent will not work"
+                "   ❌ No Reddit API credentials found - "
+                "Reddit agent will not work"
             )
         elif reddit_vars_present < 3:
             self.warnings.append(
-                "   ⚠️  Incomplete Reddit API credentials - some features may not work"
+                "   ⚠️  Incomplete Reddit API credentials - "
+                "some features may not work"
             )
 
         return len([e for e in self.errors if "reddit" not in e.lower()]) == 0
@@ -263,7 +266,8 @@ class ProductionVerifier:
                     "# 4. Add to GitHub secrets:",
                     "#    REDDIT_CLIENT_ID=<your_client_id>",
                     "#    REDDIT_CLIENT_SECRET=<your_client_secret>",
-                    "#    REDDIT_USER_AGENT=trend-spotter:v1.0 (by /u/yourusername)",
+                    "#    REDDIT_USER_AGENT=trend-spotter:v1.0 "
+                    "(by /u/yourusername)",
                     "",
                 ]
             )
