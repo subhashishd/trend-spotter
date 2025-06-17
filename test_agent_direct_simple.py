@@ -3,17 +3,15 @@
 
 import asyncio
 import sys
-import os
 from dotenv import load_dotenv
+from google.adk.runners import InvocationContext
+from trend_spotter.agent import root_agent
 
 # Add the project root to the path
 sys.path.append(".")
 
 # Load environment variables
 load_dotenv()
-
-from google.adk.runners import InvocationContext
-from trend_spotter.agent import root_agent
 
 
 async def test_agent_direct():

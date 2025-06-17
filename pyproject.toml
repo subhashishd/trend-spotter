@@ -51,7 +51,7 @@ dev = [
 [tool.black]
 line-length = 79
 target-version = ['py39']
-include = r'\.pyi?$'
+include = '\\.pyi?$'
 extend-exclude = '''
 (
   /(
