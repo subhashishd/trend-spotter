@@ -2,7 +2,7 @@
 
 from . import __version__
 
-ORCHESTRATOR_PROMPT = f"""
+ORCHESTRATOR_PROMPT: str = f"""
 **TrendSpotter Multi-Agent System v{__version__}**
 
 **Role:**
