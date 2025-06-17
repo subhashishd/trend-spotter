@@ -183,6 +183,8 @@ jobs:
       env:
         GOOGLE_CLOUD_PROJECT: ${{ secrets.GOOGLE_CLOUD_PROJECT }}
         GOOGLE_CLOUD_LOCATION: ${{ secrets.GOOGLE_CLOUD_LOCATION || 'us-central1' }}
+        SERVICE_NAME: ${{ secrets.SERVICE_NAME || 'trend-spotter-service' }}
+        APP_NAME: ${{ secrets.APP_NAME || 'trend-spotter-app' }}
         GOOGLE_GENAI_USE_VERTEXAI: 'true'
         REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
         REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
@@ -194,22 +196,57 @@ jobs:
         SMTP_PORT: ${{ secrets.SMTP_PORT || '587' }}
       run: |
         echo "Deploying ADK agent to Google Cloud Run..."
+        echo "Environment variables available for deployment:"
+        echo "  GOOGLE_CLOUD_PROJECT=$GOOGLE_CLOUD_PROJECT"
+        echo "  GOOGLE_CLOUD_LOCATION=$GOOGLE_CLOUD_LOCATION"
+        echo "  GOOGLE_GENAI_USE_VERTEXAI=$GOOGLE_GENAI_USE_VERTEXAI"
+        echo "  REDDIT_CLIENT_ID=${REDDIT_CLIENT_ID:0:8}..."
+        echo "  REDDIT_CLIENT_SECRET=${REDDIT_CLIENT_SECRET:0:8}..."
+        echo "  REDDIT_USER_AGENT=$REDDIT_USER_AGENT"
+        echo "  SENDER_EMAIL=${SENDER_EMAIL:0:8}..."
+        echo "  EMAIL_RECIPIENTS=$EMAIL_RECIPIENTS"
+        echo ""
         adk deploy cloud_run \
-        --project=${{ secrets.GOOGLE_CLOUD_PROJECT }} \
-        --region=${{ secrets.GOOGLE_CLOUD_LOCATION || 'us-central1' }} \
-        --service_name=${{ secrets.SERVICE_NAME || 'trend-spotter-service' }} \
-        --app_name=${{ secrets.APP_NAME || 'trend-spotter-app' }} \
-        --with_ui \
-        --env="GOOGLE_CLOUD_PROJECT=${{ secrets.GOOGLE_CLOUD_PROJECT }}" \
-        --env="GOOGLE_CLOUD_LOCATION=${{ secrets.GOOGLE_CLOUD_LOCATION || 'us-central1' }}" \
-        --env="GOOGLE_GENAI_USE_VERTEXAI=true" \
-        --env="REDDIT_CLIENT_ID=${{ secrets.REDDIT_CLIENT_ID }}" \
-        --env="REDDIT_CLIENT_SECRET=${{ secrets.REDDIT_CLIENT_SECRET }}" \
-        --env="REDDIT_USER_AGENT=${{ secrets.REDDIT_USER_AGENT }}" \
-        --env="SENDER_EMAIL=${{ secrets.SENDER_EMAIL }}" \
-        --env="SENDER_APP_PASSWORD=${{ secrets.SENDER_APP_PASSWORD }}" \
-        --env="EMAIL_RECIPIENTS=${{ secrets.EMAIL_RECIPIENTS }}" \
-        --env="SMTP_SERVER=${{ secrets.SMTP_SERVER || 'smtp.gmail.com' }}" \
-        --env="SMTP_PORT=${{ secrets.SMTP_PORT || '587' }}" \
-        ./trend_spotter
+          --project=$GOOGLE_CLOUD_PROJECT \
+          --region=$GOOGLE_CLOUD_LOCATION \
+          --service_name=$SERVICE_NAME \
+          --app_name=$APP_NAME \
+          --with_ui \
+          ./trend_spotter
+        
+    - name: Configure Cloud Run Environment Variables
+      env:
+        GOOGLE_CLOUD_PROJECT: ${{ secrets.GOOGLE_CLOUD_PROJECT }}
+        GOOGLE_CLOUD_LOCATION: ${{ secrets.GOOGLE_CLOUD_LOCATION || 'us-central1' }}
+        SERVICE_NAME: ${{ secrets.SERVICE_NAME || 'trend-spotter-service' }}
+        GOOGLE_GENAI_USE_VERTEXAI: 'true'
+        REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
+        REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
+        REDDIT_USER_AGENT: ${{ secrets.REDDIT_USER_AGENT }}
+        SENDER_EMAIL: ${{ secrets.SENDER_EMAIL }}
+        SENDER_APP_PASSWORD: ${{ secrets.SENDER_APP_PASSWORD }}
+        EMAIL_RECIPIENTS: ${{ secrets.EMAIL_RECIPIENTS }}
+        SMTP_SERVER: ${{ secrets.SMTP_SERVER || 'smtp.gmail.com' }}
+        SMTP_PORT: ${{ secrets.SMTP_PORT || '587' }}
+      run: |
+        echo "Configuring environment variables for Cloud Run service..."
+        gcloud run services update $SERVICE_NAME \
+          --region=$GOOGLE_CLOUD_LOCATION \
+          --set-env-vars="GOOGLE_CLOUD_PROJECT=$GOOGLE_CLOUD_PROJECT,GOOGLE_CLOUD_LOCATION=$GOOGLE_CLOUD_LOCATION,GOOGLE_GENAI_USE_VERTEXAI=$GOOGLE_GENAI_USE_VERTEXAI,REDDIT_CLIENT_ID=$REDDIT_CLIENT_ID,REDDIT_CLIENT_SECRET=$REDDIT_CLIENT_SECRET,REDDIT_USER_AGENT=$REDDIT_USER_AGENT,SENDER_EMAIL=$SENDER_EMAIL,SENDER_APP_PASSWORD=$SENDER_APP_PASSWORD,EMAIL_RECIPIENTS=$EMAIL_RECIPIENTS,SMTP_SERVER=$SMTP_SERVER,SMTP_PORT=$SMTP_PORT"
+        echo "Environment variables configured successfully."
+        
+    - name: Run post-deployment tests
+      run: |
+        echo "Running post-deployment verification..."
+        # Add commands to test the deployed agent
+        # python test_deployed_agent.py
+        
+    - name: Notify deployment status
+      if: always()
+      run: |
+        if [ ${{ job.status }} == 'success' ]; then
+          echo "✅ ADK Agent deployed successfully to production"
+        else
+          echo "❌ ADK Agent deployment failed"
+        fi
 
