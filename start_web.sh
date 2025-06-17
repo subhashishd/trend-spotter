@@ -15,7 +15,7 @@ source myenv/bin/activate
 
 # Check if all dependencies are working
 echo "✅ Checking Vertex AI configuration..."
-python test_vertex_ai.py
+python tests/models/test_vertex_ai.py
 
 if [ $? -eq 0 ]; then
     echo ""

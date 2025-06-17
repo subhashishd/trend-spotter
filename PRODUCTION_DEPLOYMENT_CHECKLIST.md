@@ -34,9 +34,22 @@ Go to [GitHub Repository Settings → Secrets and Variables → Actions](https:/
 5. Add to GitHub secrets:
    - **REDDIT_CLIENT_ID**: The client ID shown under your app name
    - **REDDIT_CLIENT_SECRET**: The secret shown in your app
-   - **REDDIT_USER_AGENT**: `trend-spotter:v1.0 (by /u/yourusername)` (replace with your Reddit username)
+   - **REDDIT_USER_AGENT**: `trend-spotter:v1.2 (by /u/yourusername)` (replace with your Reddit username)
 
-#### 3. Optional Deployment Configuration
+#### 3. Email Agent Configuration (Required for Email Delivery)
+**⚠️ Without these, the Email agent will not function!**
+
+1. Set up Gmail App Password:
+   - Go to [Google Account Settings → Security → 2-Step Verification → App passwords](https://myaccount.google.com/apppasswords)
+   - Generate an app password for "Mail"
+2. Add to GitHub secrets:
+   - **SENDER_EMAIL**: Your Gmail address (e.g., `your-email@gmail.com`)
+   - **SENDER_APP_PASSWORD**: The app password generated above
+   - **EMAIL_RECIPIENTS**: Comma-separated list of recipients (optional, defaults to `tinks70@gmail.com`)
+   - **SMTP_SERVER**: `smtp.gmail.com` (optional, defaults to this)
+   - **SMTP_PORT**: `587` (optional, defaults to this)
+
+#### 4. Optional Deployment Configuration
 - **SERVICE_NAME**: `trend-spotter-service` (optional, defaults to this)
 - **APP_NAME**: `trend-spotter-app` (optional, defaults to this)
 

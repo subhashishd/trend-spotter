@@ -8,6 +8,13 @@ scikit-learn>=1.0.0
 google-adk
 praw
 
+# Email functionality for MCP email agent
+secure-smtplib>=0.1.1
+
+# Environment and async improvements
+python-dotenv>=1.0.0
+asyncio-mqtt>=0.11.0
+
 # Optional dependencies for advanced features
 plotly>=5.0.0
 dash>=2.0.0

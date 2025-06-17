@@ -54,7 +54,7 @@ def test_vertex_ai_access():
 
         vertexai.init(project=project_id, location=location)
         # If this doesn't raise an exception, credentials are working
-        assert True
+        # Test passed if no exception was raised
     except Exception as e:
         pytest.fail(f"Failed to initialize Vertex AI: {e}")
 
@@ -89,7 +89,7 @@ def test_simple_agent_response():
 def test_trend_spotter_agent_import():
     """Test that the trend spotter agent can be imported and configured."""
     try:
-        from agent import root_agent
+        from trend_spotter.agent import root_agent
 
         assert root_agent is not None
         assert hasattr(root_agent, "name")

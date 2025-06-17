@@ -266,7 +266,7 @@ class ProductionVerifier:
                     "# 4. Add to GitHub secrets:",
                     "#    REDDIT_CLIENT_ID=<your_client_id>",
                     "#    REDDIT_CLIENT_SECRET=<your_client_secret>",
-                    "#    REDDIT_USER_AGENT=trend-spotter:v1.0 "
+                    "#    REDDIT_USER_AGENT=trend-spotter:v1.2 "
                     "(by /u/yourusername)",
                     "",
                 ]

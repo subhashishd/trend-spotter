@@ -1,8 +1,10 @@
-# TrendSpotter Multi-Agent System
+# TrendSpotter Multi-Agent System v0.1.2
 
 An intelligent **multi-agent AI system** built with Google's Agent Development Kit (ADK) that automatically discovers, analyzes, and reports on the latest AI agent trends and developments.
 
-> 🎆 **New**: TrendSpotter has evolved from a single agent to a sophisticated multi-agent system! See [MULTI_AGENT_SYSTEM.md](./MULTI_AGENT_SYSTEM.md) for detailed architecture documentation.
+> 🎆 **New in v0.1.2**: Added Email Agent with MCP-compatible email delivery! Reports are now automatically formatted and sent via email.
+> 
+> 🎆 **Multi-Agent System**: TrendSpotter has evolved from a single agent to a sophisticated multi-agent system! See [MULTI_AGENT_SYSTEM.md](./MULTI_AGENT_SYSTEM.md) for detailed architecture documentation.
 
 ## Summary
 
@@ -30,6 +32,7 @@ The agent provides comprehensive reports with evidence-backed analysis, helping 
 ### API Access
 - **Google Search**: Integrated through ADK's google_search tool
 - **Vertex AI Models**: Access to Gemini models (gemini-1.5-pro or similar)
+- **Email Service**: SMTP access for automated report delivery (optional)
 
 ## Project Structure
 
@@ -234,6 +237,38 @@ async def run_query():
 
 asyncio.run(run_query())
 ```
+
+## Email Agent (MCP Integration)
+
+TrendSpotter now includes an email delivery agent that automatically sends formatted reports to specified recipients using MCP (Model Context Protocol) compatible email tools.
+
+### Email Configuration
+
+To enable email functionality, set up the following environment variables:
+
+```bash
+# Required email configuration
+export SENDER_EMAIL="your-email@gmail.com"
+export SENDER_APP_PASSWORD="your-app-specific-password"
+
+# Optional SMTP configuration (defaults to Gmail)
+export SMTP_SERVER="smtp.gmail.com"
+export SMTP_PORT="587"
+```
+
+### Email Setup Guide
+
+1. **Gmail Setup**: See [email_config.md](email_config.md) for detailed Gmail configuration instructions
+2. **Test Email**: Run `python test_email_agent.py` to verify email functionality
+3. **Default Recipient**: Reports are automatically sent to tinks70@gmail.com
+
+### Email Features
+
+- **Professional HTML Formatting**: Reports are converted to beautiful HTML emails
+- **MCP Compatibility**: Uses Model Context Protocol standards
+- **Automatic Delivery**: Integrated into the main workflow
+- **Error Handling**: Graceful failure with detailed error messages
+- **Security**: Uses app-specific passwords and TLS encryption
 
 ## Usage Examples
 

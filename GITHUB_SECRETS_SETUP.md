@@ -59,9 +59,42 @@ cat github-actions-key.json
 **How to get it:** Same process as REDDIT_CLIENT_ID above - copy the "secret" value
 
 ### 8. REDDIT_USER_AGENT (Required for Reddit Agent)
-**Value:** `trend-spotter:v1.0 (by /u/yourusername)`  
+**Value:** `trend-spotter:v1.2 (by /u/yourusername)`  
 **Description:** User agent string for Reddit API requests
 **Note:** Replace `yourusername` with your actual Reddit username
+
+### 9. SENDER_EMAIL (Required for Email Agent)
+**Value:** `tinks70@gmail.com` (or your Gmail address)  
+**Description:** Gmail address for sending trend reports
+**Note:** Must be a valid Gmail address with 2FA enabled
+
+### 10. SENDER_APP_PASSWORD (Required for Email Agent)
+**Description:** Gmail app-specific password for SMTP authentication  
+**How to get it:**
+1. Go to Google Account settings (https://myaccount.google.com/)
+2. Navigate to Security → 2-Step Verification
+3. Enable 2-Step Verification if not already enabled
+4. Go to Security → App passwords
+5. Select "Mail" and "Other (custom name)"
+6. Enter "Trend Spotter" as the app name
+7. Copy the generated 16-character password (format: `abcd efgh ijkl mnop`)
+8. **Important:** Remove spaces when entering as secret: `abcdefghijklmnop`
+
+### 11. EMAIL_RECIPIENTS (Optional for Email Agent)
+**Value:** `tinks70@gmail.com` or `user1@example.com,user2@example.com`  
+**Description:** Comma-separated list of email recipients for trend reports
+**Default:** `tinks70@gmail.com` (if not specified)
+**Note:** For multiple recipients, separate with commas (no spaces)
+
+### 12. SMTP_SERVER (Optional for Email Agent)
+**Value:** `smtp.gmail.com`  
+**Description:** SMTP server for email delivery
+**Default:** `smtp.gmail.com` (if not specified)
+
+### 13. SMTP_PORT (Optional for Email Agent)
+**Value:** `587`  
+**Description:** SMTP port for email delivery
+**Default:** `587` (if not specified)
 
 ## How to Add Secrets to GitHub
 
@@ -80,6 +113,12 @@ cat github-actions-key.json
 - **GOOGLE_CLOUD_LOCATION:** `us-central1`
 - **SERVICE_NAME:** `trend-spotter-service`
 - **APP_NAME:** `trend-spotter-app`
+- **REDDIT_CLIENT_ID:** (from Reddit app creation)
+- **REDDIT_CLIENT_SECRET:** (from Reddit app creation)
+- **REDDIT_USER_AGENT:** `trend-spotter:v1.2 (by /u/yourusername)`
+- **SENDER_EMAIL:** `tinks70@gmail.com` (or your Gmail)
+- **SENDER_APP_PASSWORD:** (from Gmail app password generation)
+- **EMAIL_RECIPIENTS:** `tinks70@gmail.com` (or comma-separated list)
 
 ## Testing the Automated Deployment
 

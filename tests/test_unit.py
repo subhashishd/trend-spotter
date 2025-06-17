@@ -50,7 +50,7 @@ def test_agent_configuration():
     from trend_spotter.agent import root_agent
 
     # Test orchestrator has tools (sub-agents)
-    assert len(root_agent.tools) == 2
+    assert len(root_agent.tools) == 3
 
     # Test orchestrator uses correct model
     assert "gemini" in root_agent.model.lower()

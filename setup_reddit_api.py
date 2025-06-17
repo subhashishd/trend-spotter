@@ -54,7 +54,7 @@ def setup_reddit_credentials():
         print("❌ Error: All fields are required!")
         return False
 
-    user_agent = f"trend-spotter:v1.0 (by /u/{reddit_username})"
+    user_agent = f"trend-spotter:v1.2 (by /u/{reddit_username})"
 
     print("\n📋 Step 3: Configure Environment")
 
