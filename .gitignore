@@ -56,6 +56,11 @@ service-account-key.json
 *.log
 logs/
 
+# Code quality output files
+flake8_output.txt
+mypy_output.txt
+bandit_output.txt
+
 # ADK specific
 .adk/
 
