@@ -111,6 +111,34 @@ jobs:
           --set-env-vars="GOOGLE_CLOUD_PROJECT=$GOOGLE_CLOUD_PROJECT,GOOGLE_CLOUD_LOCATION=$GOOGLE_CLOUD_LOCATION,GOOGLE_GENAI_USE_VERTEXAI=$GOOGLE_GENAI_USE_VERTEXAI,REDDIT_CLIENT_ID=$REDDIT_CLIENT_ID,REDDIT_CLIENT_SECRET=$REDDIT_CLIENT_SECRET,REDDIT_USER_AGENT=$REDDIT_USER_AGENT,SENDER_EMAIL=$SENDER_EMAIL,SENDER_APP_PASSWORD=$SENDER_APP_PASSWORD,EMAIL_RECIPIENTS=$EMAIL_RECIPIENTS,SMTP_SERVER=$SMTP_SERVER,SMTP_PORT=$SMTP_PORT"
         echo "Environment variables configured successfully."
         
+    - name: Configure OAuth2 Environment Variables
+      env:
+        GOOGLE_OAUTH2_CLIENT_ID: ${{ secrets.GOOGLE_OAUTH2_CLIENT_ID }}
+        GOOGLE_OAUTH2_CLIENT_SECRET: ${{ secrets.GOOGLE_OAUTH2_CLIENT_SECRET }}
+        GOOGLE_OAUTH2_REDIRECT_BASE_URL: ${{ secrets.GOOGLE_OAUTH2_REDIRECT_BASE_URL }}
+      run: |
+        echo "🔐 Configuring Google OAuth2 authentication..."
+        
+        # Check if OAuth2 credentials are provided
+        if [ -n "$GOOGLE_OAUTH2_CLIENT_ID" ] && [ -n "$GOOGLE_OAUTH2_CLIENT_SECRET" ]; then
+          echo "✅ OAuth2 credentials found - enabling authentication"
+          
+          # Update Cloud Run service with OAuth2 environment variables
+          gcloud run services update $SERVICE_NAME \
+            --region=$GOOGLE_CLOUD_LOCATION \
+            --update-env-vars="GOOGLE_OAUTH2_CLIENT_ID=$GOOGLE_OAUTH2_CLIENT_ID,GOOGLE_OAUTH2_CLIENT_SECRET=$GOOGLE_OAUTH2_CLIENT_SECRET,GOOGLE_OAUTH2_REDIRECT_BASE_URL=$GOOGLE_OAUTH2_REDIRECT_BASE_URL"
+          
+          echo "🎯 OAuth2 configuration completed!"
+          echo "📱 Users will be redirected to Google Sign-In when accessing the app"
+        else
+          echo "⚠️  OAuth2 credentials not found in GitHub secrets"
+          echo "   To enable authentication, add these secrets:"
+          echo "   - GOOGLE_OAUTH2_CLIENT_ID"
+          echo "   - GOOGLE_OAUTH2_CLIENT_SECRET"
+          echo "   - GOOGLE_OAUTH2_REDIRECT_BASE_URL"
+          echo "   See GOOGLE_OAUTH2_SETUP.md for setup instructions"
+        fi
+        
     - name: Run post-deployment tests
       run: |
         echo "Running post-deployment verification..."

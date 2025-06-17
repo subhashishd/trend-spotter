@@ -67,6 +67,48 @@ adk deploy cloud_run \
   --with_ui \
   "$AGENT_PATH"
 
-echo "✅ Deployment completed!"
-echo "Your app should be available at the Cloud Run service URL."
+echo ""
+echo "🔐 Configuring Google Authentication..."
+
+# Enable authentication for the Cloud Run service
+echo "  Requiring authentication for all requests..."
+if gcloud run services update "$SERVICE_NAME" \
+  --region="$GOOGLE_CLOUD_LOCATION" \
+  --ingress=all \
+  --no-allow-unauthenticated; then
+  echo "  ✅ Authentication enabled successfully"
+else
+  echo "  ⚠️  Warning: Failed to enable authentication"
+fi
+
+# Get current user email for IAM policy
+CURRENT_USER=$(gcloud auth list --filter=status:ACTIVE --format="value(account)" | head -1)
+if [ -n "$CURRENT_USER" ]; then
+  echo "  Adding current user ($CURRENT_USER) to allowed users..."
+  if gcloud run services add-iam-policy-binding "$SERVICE_NAME" \
+    --region="$GOOGLE_CLOUD_LOCATION" \
+    --member="user:$CURRENT_USER" \
+    --role="roles/run.invoker"; then
+    echo "  ✅ IAM policy added for $CURRENT_USER"
+  else
+    echo "  ⚠️  Warning: Failed to add IAM policy for $CURRENT_USER"
+  fi
+fi
+
+echo ""
+echo "🎯 Deployment and authentication setup completed!"
+echo "📧 To allow additional users, run:"
+echo "     gcloud run services add-iam-policy-binding $SERVICE_NAME \\"
+echo "       --region=$GOOGLE_CLOUD_LOCATION \\"
+echo "       --member=user:email@example.com \\"
+echo "       --role=roles/run.invoker"
+echo ""
+echo "🏢 To allow entire domains, run:"
+echo "     gcloud run services add-iam-policy-binding $SERVICE_NAME \\"
+echo "       --region=$GOOGLE_CLOUD_LOCATION \\"
+echo "       --member=domain:yourdomain.com \\"
+echo "       --role=roles/run.invoker"
+echo ""
+echo "🌐 Your authenticated app is available at the Cloud Run service URL."
+echo "   Users will need to sign in with their Google account to access it."
 
