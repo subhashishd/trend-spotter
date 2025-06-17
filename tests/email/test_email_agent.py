@@ -5,6 +5,7 @@ Run this to verify that email configuration is working correctly.
 """
 
 import os
+
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
@@ -130,7 +131,8 @@ def main():
             email.strip() for email in recipients_env.split(",") if email.strip()
         ]
         print(
-            f"📧 Check the following email(s) for the test report: {', '.join(recipients)}"
+            f"📧 Check the following email(s) for the test report: "
+            f"{', '.join(recipients)}"
         )
     else:
         print("\n❌ Email sending test failed!")

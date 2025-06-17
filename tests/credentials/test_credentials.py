@@ -2,8 +2,8 @@
 """Test script to verify API credentials are working."""
 
 import os
-import pytest
 
+import pytest
 from dotenv import load_dotenv
 
 # Load environment variables

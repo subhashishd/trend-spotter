@@ -1,12 +1,13 @@
 # trend_spotter/sub_agents/email_agent.py
-from google.adk.agents import Agent
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
 import os
 import re
+import smtplib
 from datetime import datetime
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 from typing import Optional
+
+from google.adk.agents import Agent
 
 MODEL = "gemini-2.5-flash-preview-05-20"
 
@@ -25,7 +26,8 @@ def send_email_report(
         subject: Email subject line
         report_content: The formatted trend report content to send
         report_date_range: Date range covered by the report (for email header)
-        recipient_email: Optional specific recipient email (if not provided, uses EMAIL_RECIPIENTS env var)
+        recipient_email: Optional specific recipient email (if not provided,
+            uses EMAIL_RECIPIENTS env var)
 
     Returns:
         A JSON string with the status of the email sending operation
@@ -41,7 +43,8 @@ def send_email_report(
             ]
 
         print(
-            f"\n📧 Preparing to send email to {len(recipients)} recipient(s): {', '.join(recipients)}..."
+            f"\n📧 Preparing to send email to {len(recipients)} recipient(s): "
+            f"{', '.join(recipients)}..."
         )
 
         # Get email configuration from environment variables
@@ -205,7 +208,8 @@ def _format_report_as_html(report_content: str, date_range: str) -> str:
         </div>
 
         <div class="footer">
-            <p>📧 This report was automatically generated and sent by your AI Agent Trend Spotter</p>
+            <p>📧 This report was automatically generated and sent by your
+            AI Agent Trend Spotter</p>
             <p>🕒 Generated on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S UTC')}</p>
         </div>
     </body>
@@ -248,7 +252,8 @@ def _convert_markdown_to_html(markdown_content: str) -> str:
 EMAIL_AGENT_PROMPT = """
 **Role:**
 - You are a specialist Email Delivery Agent.
-- Your sole purpose is to receive a completed trend report and send it via email to the specified recipient.
+- Your sole purpose is to receive a completed trend report and send it via
+  email to the specified recipient.
 - You have access to one tool: `send_email_report`.
 
 **Context:**
@@ -259,7 +264,8 @@ EMAIL_AGENT_PROMPT = """
 
 **Task:**
 1. Parse the request to extract the trend report content.
-2. Look for the date range in the report (usually in the header like "Report Date Range: [dates]").
+2. Look for the date range in the report (usually in the header
+   like "Report Date Range: [dates]").
 3. Create an appropriate email subject line that includes the date range.
 4. Use the `send_email_report` tool with the correct parameters:
    - subject: "AI Agent Trends Report - [Date Range]"
@@ -269,14 +275,17 @@ EMAIL_AGENT_PROMPT = """
 5. Confirm successful delivery with a status message.
 
 **Email Configuration:**
-- Default recipient: Uses EMAIL_RECIPIENTS environment variable (unless otherwise specified)
+- Default recipient: Uses EMAIL_RECIPIENTS environment variable
+  (unless otherwise specified)
 - Subject format: "AI Agent Trends Report - [Date Range]"
 - Always include the full report content in the email body.
 
 **Important:**
-- When you receive a request with report content, immediately use the `send_email_report` tool.
+- When you receive a request with report content, immediately use the
+  `send_email_report` tool.
 - Do NOT try to format or modify the report content - send it as-is.
-- Extract the date range from phrases like "Report Date Range: June 10, 2025 - June 17, 2025".
+- Extract the date range from phrases like "Report Date Range:
+  June 10, 2025 - June 17, 2025".
 
 **Output:**
 - Provide a clear confirmation of email delivery status.
@@ -287,7 +296,8 @@ email_agent = Agent(
     name="email_agent",
     model=MODEL,
     description=(
-        "A specialist agent for delivering trend reports via email using MCP-compatible tools."
+        "A specialist agent for delivering trend reports via email using "
+        "MCP-compatible tools."
     ),
     instruction=EMAIL_AGENT_PROMPT,
     tools=[send_email_report],

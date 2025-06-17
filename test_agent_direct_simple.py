@@ -3,8 +3,10 @@
 
 import asyncio
 import sys
+
 from dotenv import load_dotenv
 from google.adk.runners import InvocationContext
+
 from trend_spotter.agent import root_agent
 
 # Add the project root to the path

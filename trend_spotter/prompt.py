@@ -66,9 +66,12 @@ ORCHESTRATOR_PROMPT: str = f"""
 4.  **Deliver the Report via Email:**
     - Once the final report is complete, delegate to your `email_agent`.
     - Pass the complete report as a request to the email agent.
-    - Your request should be something like: "Please send this report: [FULL REPORT CONTENT]"
-    - The email agent will handle parsing the report, extracting the date range, and delivery.
-    - Confirm successful delivery and provide the user with the delivery status.
+    - Your request should be something like: "Please send this report: "
+      "[FULL REPORT CONTENT]"
+    - The email agent will handle parsing the report, extracting the date
+      range, and delivery.
+    - Confirm successful delivery and provide the user with the delivery
+      status.
 
 
 **Final Report Format:**
