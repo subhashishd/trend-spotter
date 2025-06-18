@@ -2,6 +2,7 @@
 import os
 import re
 import smtplib
+import threading
 from datetime import datetime
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -9,10 +10,23 @@ from typing import Optional
 
 from google.adk.agents import Agent
 
+# Thread-local storage for current user context
+_thread_local = threading.local()
+
 MODEL = "gemini-2.5-flash-preview-05-20"
 
 
 # MCP-style email tool implementation using ADK function pattern
+def set_current_user_email(email: str):
+    """Set the current user's email in thread-local storage."""
+    _thread_local.user_email = email
+
+
+def get_current_user_email() -> Optional[str]:
+    """Get the current user's email from thread-local storage."""
+    return getattr(_thread_local, "user_email", None)
+
+
 def send_email_report(
     subject: str,
     report_content: str,
@@ -33,8 +47,11 @@ def send_email_report(
         A JSON string with the status of the email sending operation
     """
     try:
-        # Get recipients from environment variable or use provided recipient
-        if recipient_email:
+        # Get recipients from thread-local user email or use provided recipient
+        user_email = get_current_user_email()
+        if user_email:
+            recipients = [user_email.strip()]
+        elif recipient_email:
             recipients = [recipient_email.strip()]
         else:
             recipients_env = os.getenv("EMAIL_RECIPIENTS", "<your email address>")

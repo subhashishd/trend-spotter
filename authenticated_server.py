@@ -21,9 +21,13 @@ sys.path.insert(0, str(Path(__file__).parent))
 try:
     # Import auth middleware after path setup
     from auth_middleware import create_auth_middleware
+    from user_context_middleware import add_user_context_middleware
 except ImportError:
     # Fallback if middleware is not available
     def create_auth_middleware(app):
+        return app
+
+    def add_user_context_middleware(app):
         return app
 
 
@@ -78,6 +82,9 @@ def start_authenticated_server(
 
             # Then add Google OAuth2 authentication middleware
             app = create_auth_middleware(app)
+
+            # Add user context middleware after authentication
+            app = add_user_context_middleware(app)
         else:
             print("⚠️  OAuth2 credentials not found - running without authentication")
 
